@@ -4,59 +4,63 @@
 
 // Helper function to run a TrafficLight instance in its own thread
 void runTrafficLight(TrafficLight& trafficLight, void (TrafficLight::*func)()) {
-    std::thread lightThread(func, &trafficLight);
-    if (lightThread.joinable()) {
-        lightThread.join();
+    std::thread trafficLightObj(func, &trafficLight);
+    if (trafficLightObj.joinable()) {
+        trafficLightObj.join();
     }
 }
 
 // Test Case 1: Simulate a Single Traffic Light
 TEST(TrafficLightTest, SingleTrafficLight) {
-    TrafficLight light("Single Light", 5);
-    ASSERT_NO_THROW(runTrafficLight(light, &TrafficLight::RedToGreen));
+    TrafficLight North("North", 5);
+    ASSERT_NO_THROW(runTrafficLight(North, &TrafficLight::RedToGreen));
 }
 
 // Test Case 2: Simulate Two Differentiated Traffic Lights
 TEST(TrafficLightTest, TwoDifferentTrafficLights) {
-    TrafficLight light1("Light One", 5); // Green initially
-    TrafficLight light2("Light Two", 5); // Red initially
+    TrafficLight North("North", 5);
+    TrafficLight South("South", 5);
 
-    std::thread thread1(&TrafficLight::RedToGreen, &light1);
-    std::thread thread2(&TrafficLight::GreenToRed, &light2);
+    std::thread t1(&TrafficLight::RedToGreen, &North);
+    std::thread t2(&TrafficLight::GreenToRed, &South);
 
-    if (thread1.joinable()) thread1.join();
-    if (thread2.joinable()) thread2.join();
+    if (t1.joinable()) {
+        t1.join();
+    }
+    if (t2.joinable()) {
+        t2.join();
+    }
 }
 
-// Test Case 3: Simulate Three Traffic Lights (Two Perpendicular and One Different)
+// Test Case 3: Simulate Three Traffic Lights
 TEST(TrafficLightTest, ThreeTrafficLights) {
-    TrafficLight lightA("North-South", 5); // Same direction
-    TrafficLight lightB("East-West", 5); // Perpendicular
-    TrafficLight lightC("Pedestrian Crossing", 3); // Independent
+    TrafficLight North("North", 5);
+    TrafficLight South("South", 5);
+    TrafficLight East("East", 5);
 
-    std::thread threadA(&TrafficLight::RedToGreen, &lightA);
-    std::thread threadB(&TrafficLight::GreenToRed, &lightB);
-    std::thread threadC(&TrafficLight::RedToGreen, &lightC);
+    std::thread t1(&TrafficLight::RedToGreen, &North);
+    std::thread t2(&TrafficLight::GreenToRed, &South);
+    std::thread t3(&TrafficLight::RedToGreen, &East);
 
-    if (threadA.joinable()) threadA.join();
-    if (threadB.joinable()) threadB.join();
-    if (threadC.joinable()) threadC.join();
+    if (t1.joinable()) t1.join();
+    if (t2.joinable()) t2.join();
+    if (t3.joinable()) t3.join();
 }
 
 // Test Case 4: Simulate Four Perpendicular Traffic Lights
 TEST(TrafficLightTest, FourPerpendicularTrafficLights) {
-    TrafficLight north("North", 5);
-    TrafficLight south("South", 5);
-    TrafficLight east("East", 5);
-    TrafficLight west("West", 5);
+    TrafficLight North("North", 5);
+    TrafficLight South("South", 5);
+    TrafficLight East("East", 5);
+    TrafficLight West("West", 5);
 
-    std::thread northThread(&TrafficLight::RedToGreen, &north);
-    std::thread southThread(&TrafficLight::RedToGreen, &south);
-    std::thread eastThread(&TrafficLight::GreenToRed, &east);
-    std::thread westThread(&TrafficLight::GreenToRed, &west);
+    std::thread t1(&TrafficLight::RedToGreen, &North);
+    std::thread t2(&TrafficLight::RedToGreen, &South);
+    std::thread t3(&TrafficLight::GreenToRed, &East);
+    std::thread t4(&TrafficLight::GreenToRed, &West);
 
-    if (northThread.joinable()) northThread.join();
-    if (southThread.joinable()) southThread.join();
-    if (eastThread.joinable()) eastThread.join();
-    if (westThread.joinable()) westThread.join();
+    if (t1.joinable()) t1.join();
+    if (t2.joinable()) t2.join();
+    if (t3.joinable()) t3.join();
+    if (t4.joinable()) t4.join();
 }
