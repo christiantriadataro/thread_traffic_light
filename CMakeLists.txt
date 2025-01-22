@@ -4,7 +4,7 @@ project(traffic_light)
 set(CMAKE_CXX_STANDARD 20)
 set(SOURCE_FILE src/main.cpp)
 
-add_executable(run_dev ${SOURCE_FILE})
+add_executable(run_dev ${SOURCE_FILE} lib/traffic_light.cpp)
 include_directories(lib)
 add_subdirectory(lib)
 target_link_libraries(run_dev traffic_light_lib)

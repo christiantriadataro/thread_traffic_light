@@ -2,11 +2,9 @@
 #define LIB_TRAFFIC_LIGHT_H
 
 #include <string>
-#include <map>
-#include <iostream>
 #include <windows.h>
-#include <thread>
 #include <chrono>
+
 
 using namespace std;
 
@@ -16,8 +14,8 @@ private:
     int duration;
 
 public:
+    TrafficLight(string name, int duration = 5);
     static HANDLE hConsole;
-    explicit TrafficLight(string name, int duration = 5);
     void RedToGreen();
     void GreenToRed();
 
@@ -27,6 +25,7 @@ private:
     static void displayTrafficLight(string CURRENTLIGHT, int DURATION);
     static void timer();
     void iterate(string CURRENTLIGHT);
+    void display(string CURRENTLIGHT, int DURATION);
 };
 
 #endif // LIB_TRAFFIC_LIGHT_H

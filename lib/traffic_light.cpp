@@ -1,7 +1,10 @@
-
 #include "traffic_light.h"
+#include <map>
+#include <iostream>
+#include <thread>
+#include <format>
 
-// Initialization of static members, if any
+
 HANDLE TrafficLight::hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
 map<string, string> LIGHTS = {
@@ -22,6 +25,8 @@ TrafficLight::TrafficLight(string name, int duration)
 }
 
 void TrafficLight::RedToGreen() {
+    this_thread::sleep_for(chrono::seconds(1));
+    iterate("YELLOW");
     iterate("RED");
     iterate("YELLOW");
     iterate("GREEN");
@@ -29,10 +34,11 @@ void TrafficLight::RedToGreen() {
 }
 
 void TrafficLight::GreenToRed() {
+    this_thread::sleep_for(chrono::seconds(1));
+    iterate("YELLOW");
     iterate("GREEN");
     iterate("YELLOW");
     iterate("RED");
-    iterate("YELLOW");
 }
 
 void TrafficLight::changeColor(int COLOR) {
@@ -51,13 +57,18 @@ void TrafficLight::timer() {
     this_thread::sleep_for(chrono::milliseconds(800));
 }
 
+void TrafficLight::display(string CURRENTLIGHT, int DURATION) {
+    cout << format("{} Traffic Light: {} ({} sec/s)\n", this->name, CURRENTLIGHT, DURATION);
+}
+
 void TrafficLight::iterate(string CURRENTLIGHT) {
     const int DURATION = CURRENTLIGHT == LIGHTS["YELLOW"] ? 2 : this->duration;
     for (int i = DURATION; i >= 0; i--) {
-        changeColor(COLORS["DEFAULT"]);
-        displayStationName();
-        changeColor(COLORS[CURRENTLIGHT]);
-        displayTrafficLight(CURRENTLIGHT, i);
+        display(CURRENTLIGHT, i);
+        // changeColor(COLORS["DEFAULT"]);
+        // displayStationName();
+        // changeColor(COLORS[CURRENTLIGHT]);
+        // displayTrafficLight(CURRENTLIGHT, i);
         timer();
     }
 }

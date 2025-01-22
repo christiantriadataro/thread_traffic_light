@@ -1,5 +1,5 @@
-#include "traffic_light.h"
-
+#include "../lib/traffic_light.h"
+#include <thread>
 
 int main() {
     TrafficLight North("North");
