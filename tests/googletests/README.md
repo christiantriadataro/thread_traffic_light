@@ -1,6 +1,6 @@
 # GoogleTest
 
-### Announcements
+**### Announcements
 
 #### Live at Head
 
@@ -20,7 +20,7 @@ GitHub Pages rather than directly in the repository.
 #### Release 1.15.2
 
 [Release 1.15.2](https://github.com/google/googletest/releases/tag/v1.15.2) is
-now available.
+now available.**
 
 The 1.15.x branch requires at least C++14.
 
